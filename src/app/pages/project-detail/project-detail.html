@@ -1,0 +1,89 @@
+@if (project(); as p) {
+  <section class="relative h-[55vh] min-h-[400px] w-full overflow-hidden">
+    <img [src]="p.coverImage" [alt]="p.title" class="h-full w-full object-cover" />
+    <div class="absolute inset-0 bg-ink-900/55"></div>
+    <div class="relative z-10 flex h-full items-end pb-16">
+      <div class="container-content">
+        <p class="eyebrow text-brass-300 mb-4">{{ p.location }}</p>
+        <h1 class="font-display text-4xl md:text-6xl text-walnut-50 max-w-2xl">{{ p.title }}</h1>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 md:py-32 bg-white">
+    <div class="container-content grid gap-14 md:grid-cols-3">
+      <div class="md:col-span-2" appReveal="up">
+        <h2 class="font-display text-2xl text-walnut-900 mb-4">About This Project</h2>
+        <p class="text-ink-700 leading-relaxed">{{ p.description }}</p>
+      </div>
+      <div appReveal="up" [revealDelay]="0.15" class="space-y-8">
+        <div>
+          <h3 class="eyebrow mb-3">Services Provided</h3>
+          <ul class="flex flex-wrap gap-2">
+            @for (service of p.servicesProvided; track service) {
+              <li class="text-xs uppercase tracking-wide text-brass-600 bg-brass-50 rounded-full px-3 py-1">{{ service }}</li>
+            }
+          </ul>
+        </div>
+        <div>
+          <h3 class="eyebrow mb-3">Materials Used</h3>
+          <ul class="flex flex-wrap gap-2">
+            @for (material of p.materials; track material) {
+              <li class="text-xs uppercase tracking-wide text-walnut-700 bg-walnut-100 rounded-full px-3 py-1">{{ material }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  @if (p.before && p.during && p.after) {
+    <section class="py-24 md:py-32 bg-walnut-100">
+      <div class="container-content">
+        <h2 class="font-display text-2xl text-walnut-900 mb-10 text-center" appReveal="up">Before, During &amp; After</h2>
+        <div class="grid gap-6 md:grid-cols-3">
+          <figure appReveal="up" class="overflow-hidden rounded-2xl">
+            <img [src]="p.before" alt="Before" class="h-72 w-full object-cover" />
+            <figcaption class="mt-3 text-center eyebrow">Before</figcaption>
+          </figure>
+          <figure appReveal="up" [revealDelay]="0.1" class="overflow-hidden rounded-2xl">
+            <img [src]="p.during" alt="During" class="h-72 w-full object-cover" />
+            <figcaption class="mt-3 text-center eyebrow">During</figcaption>
+          </figure>
+          <figure appReveal="up" [revealDelay]="0.2" class="overflow-hidden rounded-2xl">
+            <img [src]="p.after" alt="After" class="h-72 w-full object-cover" />
+            <figcaption class="mt-3 text-center eyebrow">After</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+  }
+
+  <section class="py-24 md:py-32 bg-white">
+    <div class="container-content">
+      <h2 class="font-display text-2xl text-walnut-900 mb-10 text-center" appReveal="up">Gallery</h2>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        @for (image of p.gallery; track image.src; let i = $index) {
+          <figure appReveal="up" [revealDelay]="(i % 3) * 0.1" class="overflow-hidden rounded-2xl">
+            <img [src]="image.src" [alt]="image.caption" class="h-64 w-full object-cover" />
+            <figcaption class="mt-3 text-sm text-ink-500">{{ image.caption }}</figcaption>
+          </figure>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 bg-brass-500">
+    <div class="container-content text-center" appReveal="up">
+      <h2 class="font-display text-3xl md:text-4xl text-ink-900">Want something like this?</h2>
+      <a routerLink="/contact" class="btn-primary mt-8 !bg-ink-900 hover:!bg-walnut-50 hover:!text-ink-900">Request a Quote →</a>
+    </div>
+  </section>
+} @else {
+  <section class="py-40">
+    <div class="container-content text-center">
+      <h1 class="font-display text-3xl text-walnut-900">Project not found</h1>
+      <a routerLink="/projects" class="btn-primary mt-8">Back to Projects</a>
+    </div>
+  </section>
+}

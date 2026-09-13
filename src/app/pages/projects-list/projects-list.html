@@ -1,0 +1,35 @@
+<section class="bg-walnut-900 py-28 md:py-36">
+  <div class="container-content text-center">
+    <p class="eyebrow text-brass-400 mb-4">Our Portfolio</p>
+    <h1 class="font-display text-4xl md:text-6xl text-walnut-50">Featured Projects</h1>
+    <p class="mt-5 max-w-xl mx-auto text-walnut-100/80">Real homes, real carpentry — a look at what we've built.</p>
+  </div>
+</section>
+
+<section class="py-24 md:py-32 bg-walnut-100">
+  <div class="container-content">
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      @for (project of projects; track project.slug; let i = $index) {
+        <a
+          [routerLink]="['/projects', project.slug]"
+          appReveal="up"
+          [revealDelay]="(i % 3) * 0.1"
+          class="card-hover group block overflow-hidden rounded-2xl bg-white shadow-sm hover:shadow-xl"
+        >
+          <div class="h-60 overflow-hidden">
+            <img [src]="project.coverImage" [alt]="project.title" class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" />
+          </div>
+          <div class="p-6">
+            <h3 class="font-display text-xl text-walnut-900">{{ project.title }}</h3>
+            <p class="mt-1 text-sm text-ink-600">{{ project.location }}</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              @for (service of project.servicesProvided; track service) {
+                <span class="text-xs uppercase tracking-wide text-brass-600 bg-brass-50 rounded-full px-3 py-1">{{ service }}</span>
+              }
+            </div>
+          </div>
+        </a>
+      }
+    </div>
+  </div>
+</section>

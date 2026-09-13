@@ -1,0 +1,39 @@
+<section class="bg-walnut-900 py-28 md:py-36">
+  <div class="container-content text-center">
+    <p class="eyebrow text-brass-400 mb-4">What We Do</p>
+    <h1 class="font-display text-4xl md:text-6xl text-walnut-50">Our Services</h1>
+    <p class="mt-5 max-w-xl mx-auto text-walnut-100/80">
+      From full kitchens to a single loose hinge — explore what we build.
+    </p>
+  </div>
+</section>
+
+<section class="py-24 md:py-32 bg-white">
+  <div class="container-content">
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      @for (service of services; track service.slug; let i = $index) {
+        <a
+          [routerLink]="['/services', service.slug]"
+          appReveal="up"
+          [revealDelay]="(i % 3) * 0.1"
+          class="card-hover group block overflow-hidden rounded-2xl bg-walnut-50 shadow-sm hover:shadow-xl"
+        >
+          <div class="h-56 overflow-hidden">
+            <img
+              [src]="service.cardImage"
+              [alt]="service.category"
+              class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+            />
+          </div>
+          <div class="p-6">
+            <h3 class="font-display text-xl text-walnut-900">{{ service.category }}</h3>
+            <p class="mt-2 text-sm text-ink-600">{{ service.shortDescription }}</p>
+            <span class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brass-600 group-hover:gap-2 transition-all">
+              View Services →
+            </span>
+          </div>
+        </a>
+      }
+    </div>
+  </div>
+</section>

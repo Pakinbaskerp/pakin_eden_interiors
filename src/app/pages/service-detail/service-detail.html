@@ -1,0 +1,89 @@
+@if (service(); as s) {
+  <section class="relative h-[55vh] min-h-[400px] w-full overflow-hidden">
+    <img [src]="s.heroImage" [alt]="s.title" class="h-full w-full object-cover" />
+    <div class="absolute inset-0 bg-ink-900/55"></div>
+    <div class="relative z-10 flex h-full items-center">
+      <div class="container-content">
+        <p class="eyebrow text-brass-300 mb-4">{{ s.category }}</p>
+        <h1 class="font-display text-4xl md:text-6xl text-walnut-50 max-w-2xl">{{ s.title }}</h1>
+        <p class="mt-5 max-w-xl text-walnut-100/90">{{ s.heroDescription }}</p>
+      </div>
+    </div>
+  </section>
+
+  @if (s.pricingItems && s.pricingItems.length) {
+    <section class="py-24 md:py-32 bg-white">
+      <div class="container-content">
+        <div class="text-center max-w-2xl mx-auto mb-16" appReveal="up">
+          <p class="eyebrow mb-3">Small Job? No Problem.</p>
+          <h2 class="font-display text-3xl md:text-4xl text-walnut-900">Quick Carpentry Fixes</h2>
+        </div>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          @for (item of s.pricingItems; track item.name; let i = $index) {
+            <div appReveal="up" [revealDelay]="(i % 4) * 0.1" class="card-hover rounded-2xl bg-walnut-50 p-6 text-center shadow-sm">
+              <div class="text-3xl mb-3">{{ item.icon }}</div>
+              <h3 class="font-display text-walnut-900">{{ item.name }}</h3>
+              <p class="mt-2 text-sm text-brass-600 font-medium">Starting from {{ item.startingFrom }}</p>
+              <a [routerLink]="['/contact']" [queryParams]="{ service: 'small-services' }" class="btn-outline mt-4 !py-2 !px-5 text-xs">Request Service →</a>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+  } @else {
+    <section class="py-24 md:py-32 bg-white">
+      <div class="container-content">
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          @for (sub of s.subServices; track sub.name; let i = $index) {
+            <div appReveal="up" [revealDelay]="(i % 3) * 0.1" class="card-hover overflow-hidden rounded-2xl bg-walnut-50 shadow-sm">
+              <div class="h-48 overflow-hidden">
+                <img [src]="sub.image" [alt]="sub.name" class="h-full w-full object-cover" />
+              </div>
+              <div class="p-5">
+                <h3 class="font-display text-lg text-walnut-900">{{ sub.name }}</h3>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+  }
+
+  <section class="py-24 md:py-32 bg-walnut-900 overflow-hidden">
+    <div class="container-content">
+      <div class="text-center max-w-2xl mx-auto mb-16" appReveal="up">
+        <p class="eyebrow text-brass-400 mb-3">How We Work</p>
+        <h2 class="font-display text-3xl md:text-4xl text-walnut-50">Our Process</h2>
+      </div>
+      <div class="flex flex-wrap justify-center gap-6 md:gap-4">
+        @for (step of processSteps; track step.index; let i = $index; let last = $last) {
+          <div class="flex items-center gap-4 md:gap-2">
+            <div appReveal="up" [revealDelay]="i * 0.08" class="flex flex-col items-center justify-center h-28 w-28 md:h-32 md:w-32 rounded-full border border-walnut-100/15 bg-walnut-800/60 text-center px-2">
+              <span class="font-display text-brass-400 text-lg">{{ step.index }}</span>
+              <span class="mt-1 text-sm font-medium text-walnut-50">{{ step.title }}</span>
+            </div>
+            @if (!last) {
+              <span class="hidden md:inline text-2xl text-walnut-100/30">→</span>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 bg-brass-500">
+    <div class="container-content text-center" appReveal="up">
+      <h2 class="font-display text-3xl md:text-4xl text-ink-900">Need {{ s.category }}?</h2>
+      <a [routerLink]="['/contact']" [queryParams]="{ service: s.slug }" class="btn-primary mt-8 !bg-ink-900 hover:!bg-walnut-50 hover:!text-ink-900">
+        Request a Quote →
+      </a>
+    </div>
+  </section>
+} @else {
+  <section class="py-40">
+    <div class="container-content text-center">
+      <h1 class="font-display text-3xl text-walnut-900">Service not found</h1>
+      <a routerLink="/services" class="btn-primary mt-8">Back to Services</a>
+    </div>
+  </section>
+}

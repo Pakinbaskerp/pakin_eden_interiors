@@ -1,0 +1,238 @@
+<!-- Hero Carousel -->
+<section class="relative h-screen min-h-[560px] w-full overflow-hidden">
+  @for (slide of slides; track slide.title; let i = $index) {
+    <div
+      class="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+      [class.opacity-100]="activeSlide() === i"
+      [class.opacity-0]="activeSlide() !== i"
+      [class.pointer-events-none]="activeSlide() !== i"
+    >
+      <div class="absolute inset-0 -z-10 overflow-hidden">
+        <img [appParallax]="50" [src]="slide.image" [alt]="slide.title" class="h-[120%] w-full object-cover" />
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-ink-900/30 to-ink-900/50"></div>
+
+      <div class="relative z-10 flex h-full items-end md:items-center">
+        <div class="container-content pb-28 md:pb-0">
+          <p class="eyebrow text-brass-300 mb-4">Paul Eden Interiors</p>
+          <h1 class="max-w-2xl font-display text-4xl md:text-6xl leading-tight text-walnut-50">
+            {{ slide.title }}
+          </h1>
+          <p class="mt-5 max-w-lg text-walnut-100/90">{{ slide.description }}</p>
+          <div class="mt-8 flex flex-wrap gap-4">
+            <a routerLink="/services" class="btn-light">Explore Services</a>
+            <a routerLink="/contact" class="btn-outline !border-walnut-50/50 !text-walnut-50 hover:!bg-walnut-50 hover:!text-walnut-900">Get a Quote</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Controls -->
+  <div class="absolute inset-x-0 bottom-8 z-20 flex items-center justify-center gap-3">
+    @for (slide of slides; track slide.title; let i = $index) {
+      <button
+        type="button"
+        (click)="goTo(i)"
+        class="h-2 rounded-full transition-all duration-300"
+        [class.w-8]="activeSlide() === i"
+        [class.bg-brass-400]="activeSlide() === i"
+        [class.w-2]="activeSlide() !== i"
+        [class.bg-walnut-50-50]="activeSlide() !== i"
+        [class.bg-walnut-50]="activeSlide() !== i"
+        [attr.aria-label]="'Go to slide ' + (i + 1)"
+      ></button>
+    }
+  </div>
+
+  <button
+    type="button"
+    (click)="prev()"
+    class="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 z-20 h-11 w-11 items-center justify-center rounded-full bg-walnut-50/20 text-walnut-50 backdrop-blur hover:bg-walnut-50/40 transition-colors"
+    aria-label="Previous slide"
+  >
+    ‹
+  </button>
+  <button
+    type="button"
+    (click)="next()"
+    class="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 z-20 h-11 w-11 items-center justify-center rounded-full bg-walnut-50/20 text-walnut-50 backdrop-blur hover:bg-walnut-50/40 transition-colors"
+    aria-label="Next slide"
+  >
+    ›
+  </button>
+</section>
+
+<!-- Our Story -->
+<section class="py-24 md:py-32 bg-walnut-50">
+  <div class="container-content">
+    <div appReveal="up" class="relative overflow-hidden rounded-3xl bg-walnut-900 px-8 py-16 md:px-20 md:py-24 text-center">
+      <p class="eyebrow text-brass-400 mb-4">Our Story</p>
+      <h2 class="font-display text-3xl md:text-5xl text-walnut-50 max-w-3xl mx-auto leading-snug">
+        Built on a father's craftsmanship, carried forward with purpose.
+      </h2>
+      <p class="mt-6 max-w-2xl mx-auto text-walnut-100/80">
+        Paul Eden Interiors grew out of decades of hands-on carpentry experience — from small repairs to
+        full-home interiors. Today, we're carrying that craft forward with modern design, honest pricing
+        and the same attention to detail it started with.
+      </p>
+      <a routerLink="/about" class="btn-light mt-8">Discover Our Story →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="py-24 md:py-32 bg-white">
+  <div class="container-content">
+    <div class="text-center max-w-2xl mx-auto mb-16" appReveal="up">
+      <p class="eyebrow mb-3">What We Do</p>
+      <h2 class="font-display text-3xl md:text-4xl text-walnut-900">Interiors &amp; Carpentry Services</h2>
+    </div>
+
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      @for (service of services; track service.slug; let i = $index) {
+        <a
+          [routerLink]="['/services', service.slug]"
+          appReveal="up"
+          [revealDelay]="(i % 3) * 0.1"
+          class="card-hover group block overflow-hidden rounded-2xl bg-walnut-50 shadow-sm hover:shadow-xl"
+        >
+          <div class="h-56 overflow-hidden">
+            <img
+              [src]="service.cardImage"
+              [alt]="service.category"
+              class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+            />
+          </div>
+          <div class="p-6">
+            <h3 class="font-display text-xl text-walnut-900">{{ service.category }}</h3>
+            <p class="mt-2 text-sm text-ink-600">{{ service.shortDescription }}</p>
+            <span class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brass-600 group-hover:gap-2 transition-all">
+              View Services →
+            </span>
+          </div>
+        </a>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Featured Projects -->
+<section class="py-24 md:py-32 bg-walnut-100">
+  <div class="container-content">
+    <div class="flex flex-wrap items-end justify-between gap-6 mb-16" appReveal="up">
+      <div>
+        <p class="eyebrow mb-3">Portfolio</p>
+        <h2 class="font-display text-3xl md:text-4xl text-walnut-900">Featured Projects</h2>
+      </div>
+      <a routerLink="/projects" class="btn-outline">View All Projects →</a>
+    </div>
+
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      @for (project of featuredProjects; track project.slug; let i = $index) {
+        <a
+          [routerLink]="['/projects', project.slug]"
+          appReveal="up"
+          [revealDelay]="(i % 4) * 0.1"
+          class="card-hover group block overflow-hidden rounded-2xl bg-white shadow-sm hover:shadow-xl"
+        >
+          <div class="h-48 overflow-hidden">
+            <img [src]="project.coverImage" [alt]="project.title" class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" />
+          </div>
+          <div class="p-5">
+            <h3 class="font-display text-lg text-walnut-900">{{ project.title }}</h3>
+            <p class="mt-1 text-sm text-ink-600">{{ project.location }}</p>
+          </div>
+        </a>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Our Process -->
+<section class="py-24 md:py-32 bg-white overflow-hidden">
+  <div class="container-content">
+    <div class="text-center max-w-2xl mx-auto mb-16" appReveal="up">
+      <p class="eyebrow mb-3">How It Works</p>
+      <h2 class="font-display text-3xl md:text-4xl text-walnut-900">Our Process</h2>
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-6 md:gap-4">
+      @for (step of processSteps; track step.index; let i = $index; let last = $last) {
+        <div class="flex items-center gap-4 md:gap-2">
+          <div
+            appReveal="up"
+            [revealDelay]="i * 0.08"
+            class="flex flex-col items-center justify-center h-28 w-28 md:h-32 md:w-32 rounded-full border border-walnut-800/15 bg-walnut-50 text-center px-2"
+          >
+            <span class="font-display text-brass-500 text-lg">{{ step.index }}</span>
+            <span class="mt-1 text-sm font-medium text-walnut-900">{{ step.title }}</span>
+          </div>
+          @if (!last) {
+            <span class="hidden md:inline text-2xl text-walnut-300">→</span>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Why Paul Eden -->
+<section class="py-24 md:py-32 bg-walnut-900">
+  <div class="container-content">
+    <div class="text-center max-w-2xl mx-auto mb-16" appReveal="up">
+      <p class="eyebrow text-brass-400 mb-3">Why Paul Eden</p>
+      <h2 class="font-display text-3xl md:text-4xl text-walnut-50">Why Choose Us</h2>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+      @for (card of whyCards; track card.title; let i = $index) {
+        <div
+          appReveal="up"
+          [revealDelay]="i * 0.1"
+          class="card-hover rounded-2xl bg-walnut-800/60 p-6 text-center border border-walnut-100/10"
+        >
+          <div class="text-3xl mb-4">{{ card.icon }}</div>
+          <h3 class="font-display text-walnut-50">{{ card.title }}</h3>
+          <p class="mt-2 text-sm text-walnut-100/70">{{ card.description }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-24 md:py-32 bg-walnut-50">
+  <div class="container-content">
+    <div class="text-center max-w-2xl mx-auto mb-16" appReveal="up">
+      <p class="eyebrow mb-3">Testimonials</p>
+      <h2 class="font-display text-3xl md:text-4xl text-walnut-900">What Our Clients Say</h2>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-3">
+      @for (t of testimonials; track t.name; let i = $index) {
+        <div appReveal="up" [revealDelay]="i * 0.1" class="card-hover rounded-2xl bg-white p-8 shadow-sm">
+          <div class="text-brass-500 mb-3">
+            @for (s of stars(t.rating); track $index) {
+              ★
+            }
+          </div>
+          <p class="text-ink-700 italic">"{{ t.quote }}"</p>
+          <p class="mt-5 font-medium text-walnut-900">{{ t.name }}</p>
+          <p class="text-sm text-ink-400">{{ t.location }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="py-24 md:py-28 bg-brass-500">
+  <div class="container-content text-center" appReveal="up">
+    <h2 class="font-display text-3xl md:text-4xl text-ink-900">Ready to start your project?</h2>
+    <p class="mt-4 text-ink-900/70 max-w-xl mx-auto">
+      Tell us what you have in mind and we'll get back to you with a plan and a clear quotation.
+    </p>
+    <a routerLink="/contact" class="btn-primary mt-8 !bg-ink-900 hover:!bg-walnut-50 hover:!text-ink-900">Request a Quote</a>
+  </div>
+</section>
